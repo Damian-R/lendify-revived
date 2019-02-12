@@ -25,21 +25,21 @@ var data = [
         'documents': [
             {
               'name': 'rake',
-              'price': '15.0',
+              'price': 15.0,
               'inActiveTransaction': false,
               'activeTransaction': {},
               'createdAt': Date.now()
             },
             {
               'name': 'bike',
-              'price': '150.0',
+              'price': 150.0,
               'inActiveTransaction': false,
               'activeTransaction': {},
               'createdAt': Date.now()
             },
             {
               'name': 'car',
-              'price': '1500.0',
+              'price': 1500.0,
               'inActiveTransaction': false,
               'activeTransaction': {},
               'createdAt': Date.now()

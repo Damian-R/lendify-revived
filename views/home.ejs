@@ -24,9 +24,6 @@
                         Lender
                       </th>
                       <th>
-                        Borrower
-                      </th>
-                      <th>
                         Price
                       </th>
                       <th>
@@ -44,7 +41,6 @@
                       <tr>
                         <td><%= item.name %></td>
                         <td><%= item.offerer.username %><% if (item.offerer.ready) { %> [Ready]<% } %></td>
-                        <td><% if (item.borrower && item.borrower.username) { %><%= item.borrower.username %><% } else { %><strong>Nobody</strong><% } %></td>
                         <td><%= item.price %></td>
                         <td>Available</td>
                         <td><% if (item.duration) { %><%= item.duration %><% } else { %> No offer </td> <% } %>
@@ -90,11 +86,9 @@
                                     <span class="label">Item: <%= item.name %></span><br/><br/>
                                     <% if (currentUser && currentUser.id == item.offerer.id) { %>
                                         <input type="hidden" name="ready" value="offerer">
-                                        <button>Ready</button>
                                     <% } else if (currentUser && currentUser.id != item.offerer.id) { %>
                                         <span class="label">Duration: </span><input type="number" name="duration"><br/><br/>
                                         <input type="hidden" name="ready" value="borrower">
-                                        <button>Ready</button>
                                     <% } %>
                                     <button class="btn">Submit</button>
                                   </form>

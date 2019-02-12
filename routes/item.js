@@ -10,11 +10,11 @@ itemRoutes.get('/transactions', async (req, res) => {
     res.render('home', { sidebar: 'transactions', transactions });
 });
 
-itemRoutes.get('/item/create', (req, res) => {
+itemRoutes.get('/item/create', (_req, res) => {
     res.render('create', { sidebar: 'list item'});
 });
 
-itemRoutes.post('/item', (req, res) => {
+itemRoutes.post('/item', async (req, res) => {
     const { name, price } = req.body;
     const item = {
         name,
@@ -27,19 +27,18 @@ itemRoutes.post('/item', (req, res) => {
         createdAt: Date.now()
     };
 
-    Item.create(item, (err, item) => {
-        if (!err) {
-            console.log(`created item ${item}`);
-            res.redirect('/');
-        } else {
-            console.log(`error when creating item. ${err}`);
-        }
-    })
+    try {
+        const createdItem = await Item.create(item);
+        console.log(`created item ${createdItem}`);
+    } catch (err) {
+        console.log(`error when creating item. ${err}`);
+    }
 
+    res.redirect('/');
 });
 
 itemRoutes.get('/', async (_req, res) => {
-    const items = await Item.find({ inActiveTransaction: false }).exec()
+    const items = await Item.find({ inActiveTransaction: false }).exec();
     res.render('home', { sidebar: 'catalog',  items });
 });
 
