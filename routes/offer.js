@@ -56,17 +56,18 @@ offerRoutes.post('/offers/:id/start', async (req, res) => {
 
     const transaction = {
         offerer: {
-            id: offer.offerer,
+            user: offer.offerer,
             ready: false
         },
         borrower: {
-            id: offer.borrower,
+            user: offer.borrower,
             ready: false
         },
         item: offer.item,
         createdDate: moment().toDate(),
         expiryDate: moment().add(offer.duration, 'h').toDate(), 
-        duration: offer.duration
+        duration: offer.duration,
+        complete: false
     };
 
     try {

@@ -23,7 +23,7 @@
                       <th>Price</th>
                       <th>Deposit</th>
                       <th>Start Date</th>
-                      <th>Exiry Date</th>
+                      <th>Expiry Date</th>
                       <th>Status</th>
                       <th>Action</th>
                     </thead>
@@ -31,16 +31,19 @@
                       <%  transactions.forEach(transaction => {  %>
                       <tr>
                         <td><%= transaction.item.name %></td>
-                        <td><%= transaction.offerer.id.username %><% if (transaction.offerer.ready) { %> [Ready]<% } %></td>
-                        <td><%= transaction.borrower.id.username %></td>
-                        <td><%= transaction.item.price %></td>
-                        <td><%= transaction.item.price*10 %></td>
+                        <td><%= transaction.offerer.user.username %></td>
+                        <td><%= transaction.borrower.user.username %></td>
+                        <td>$<%= transaction.item.price %></td>
+                        <td>$<%= transaction.item.price*10 %></td>
                         <td><%= transaction.createdDate.toLocaleString() %></td>
                         <td><%= transaction.expiryDate.toLocaleString() %></td>
-                        <% if (Date.now() > transaction.expiryDate) { %> 
+                        <% if (transaction.complete) { %>
+                          <td>Complete</td>
+                          <td></td>
+                        <% } else if (Date.now() > transaction.expiryDate) { %> 
                           <td>Expired</td>
                           <td>
-                            <% if (currentUser && currentUser.id == transaction.offerer.id.id) { %>
+                            <% if (currentUser && currentUser.id == transaction.offerer.user.id) { %>
                               <form>
                                 <button type="button" class="btn">Collect Collateral</button>
                               </form>
@@ -51,22 +54,22 @@
                         <% } else { %> 
                           <td>In Progress</td>
                           <td>
-                            <% if (currentUser && currentUser.id == transaction.offerer.id.id) { %>
+                            <% if (currentUser && currentUser.id == transaction.offerer.user.id) { %>
                               <% if (transaction.offerer.ready) { %>
-                                  <button class="btn" disabled>Closed</button>
+                                  <button class="btn" disabled>Awaiting Borrower Confirmation</button>
                                 <% } else { %>
-                                  <form action="/transaction/<%= transaction.id %>/ready" method="POST">
+                                  <form action="/transactions/<%= transaction.id %>/ready" method="POST">
                                     <input type="hidden" value="offerer" name="ready">
-                                    <button class="btn">Close</button>
+                                    <button class="btn btn-success">Item Returned</button>
                                   </form>
                                 <% } %>
-                            <% } else if (currentUser && currentUser.id == transaction.borrower.id.id) { %>
+                            <% } else if (currentUser && currentUser.id == transaction.borrower.user.id) { %>
                               <% if (transaction.borrower.ready) { %>
-                                <button class="btn" disabled>Closed</button>
+                                <button class="btn btn-success" disabled>Awaiting Offerer Confirmation</button>
                               <% } else { %>
-                                <form action="/transaction/<%= transaction.id %>/ready" method="POST">
+                                <form action="/transactions/<%= transaction.id %>/ready" method="POST">
                                   <input type="hidden" value="borrower" name="ready">
-                                  <button class="btn">Close</button>
+                                  <button class="btn btn-success">Return Item</button>
                                 </form>
                               <% } %>
                             <% } %>

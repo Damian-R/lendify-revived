@@ -12,14 +12,14 @@ import mongoose from 'mongoose';
 
 export default {
     offerer: {
-        id: {
+        user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
         ready: Boolean
     },
     borrower: {
-        id: {
+        user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
@@ -31,5 +31,6 @@ export default {
     },
     duration: Number,
     createdDate: Date,
-    expiryDate: Date
+    expiryDate: Date,
+    complete: Boolean
 }
