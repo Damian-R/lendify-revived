@@ -17,64 +17,23 @@
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
-                      <th>
-                        Name
-                      </th>
-                      <th>
-                        Lender
-                      </th>
-                      <th>
-                        Price
-                      </th>
-                      <th>
-                        Status
-                      </th>
-                      <th>
-                        Max Duration
-                      </th>
-                      <th>
-                        Action
-                      </th>
+                      <th>Name</th>
+                      <th>Lender</th>
+                      <th>Price</th>
+                      <th>Status</th>
+                      <th>Action</th>
                     </thead>
                     <tbody>
                       <%  items.forEach((item, index) => { %>
                       <tr>
                         <td><%= item.name %></td>
-                        <td><%= item.offerer.username %><% if (item.offerer.ready) { %> [Ready]<% } %></td>
+                        <td><%= item.offerer.username %></td>
                         <td><%= item.price %></td>
-                        <td>Available</td>
-                        <td><% if (item.duration) { %><%= item.duration %><% } else { %> No offer </td> <% } %>
+                        <td><% if (item.numOffers && item.numOffers > 0) { %><%= item.numOffers %> offer(s)<% } else { %> No offers </td> <% } %>
                         <td>
-                          <% if (currentUser && currentUser.id == item.offerer.id && item.duration == 0) {%>
-                          <button type="button" class="btn">No requests</button>
-                          <% } else if (currentUser && currentUser.id == item.offerer.id) { %>
-                          <form action="/item/<%= item.id %>/ready">
-                            <input type="hidden" value="offerer" name="ready">
-                            <button type="button" class="btn" data-toggle="modal" data-target="#modalo<%= index %>">Confirm</button>
-                          </form>
-                          <div class="modal" id="modalo<%= index %>">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h4>Requests</h4>
-                                  <button type="button" class="btn-danger" data-dismiss="modal">&times;</button>
-                                </div>
-                                <div class="modal-body">
-                                  <form action="/item/<%= item.id %>/ready" method="POST">
-                                    <span class="label">Item: <%= item.name %></span><br/><br/>
-                                    <input type="hidden" name="ready" value="offerer">
-                                    <span class="label">Duration: <%= item.duration %></span><br/><br/>    
-                                    <button class="btn">Approve Request</button>
-                                  </form>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <% } else { %>
-                          <% if (currentUser) { %>
-                          <button type="button" class="btn" data-toggle="modal" data-target="#modalb<%= index %>">Rent</button>
-                          <% } %>
-                          <div class="modal" id="modalb<%= index %>">
+                          <% if (currentUser && currentUser.id != item.offerer.id) { %>
+                            <button type="button" class="btn" data-toggle="modal" data-target="#modalb<%= index %>">Rent</button>
+                            <div class="modal" id="modalb<%= index %>">
                             <div class="modal-dialog">
                               <div class="modal-content">
                                 <div class="modal-header">
@@ -82,14 +41,10 @@
                                   <button type="button" class="btn-danger" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
-                                  <form action="/item/<%= item.id %>/ready" method="POST">
+                                  <form action="/offer/<%= item.id %>/create" method="POST">
                                     <span class="label">Item: <%= item.name %></span><br/><br/>
-                                    <% if (currentUser && currentUser.id == item.offerer.id) { %>
-                                        <input type="hidden" name="ready" value="offerer">
-                                    <% } else if (currentUser && currentUser.id != item.offerer.id) { %>
-                                        <span class="label">Duration: </span><input type="number" name="duration"><br/><br/>
-                                        <input type="hidden" name="ready" value="borrower">
-                                    <% } %>
+                                    <span class="label">Duration (h):</span><input type="number" class="form-control" name="duration"><br/><br/>
+                                    <input type="hidden" name="ready" value="borrower">
                                     <button class="btn">Submit</button>
                                   </form>
                                 </div>

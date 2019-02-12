@@ -1,13 +1,20 @@
 import express from 'express';
 import Item from '../models/Item';
 import Transaction from '../models/Transaction';
+import Offer from '../models/Offer';
 
 const itemRoutes = express.Router();
 
 itemRoutes.get('/transactions', async (req, res) => {
     const transactions = await Transaction.find({ offerer: { _id: req.user._id }  }).exec();
     console.log(transactions);
-    res.render('home', { sidebar: 'transactions', transactions });
+    res.render('transactions', { sidebar: 'transactions', transactions });
+});
+
+itemRoutes.get('/offers', async (req, res) => {
+    const offers = await Offer.find({ item: { offerer: { _id: req.user._id }}}).exec();
+    console.log(offers);
+    res.render('offers', { sidebar: 'offers', offers });
 });
 
 itemRoutes.get('/item/create', (_req, res) => {
