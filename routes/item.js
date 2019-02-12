@@ -5,12 +5,6 @@ import Offer from '../models/Offer';
 
 const itemRoutes = express.Router();
 
-itemRoutes.get('/transactions', async (req, res) => {
-    const transactions = await Transaction.find({ offerer: { _id: req.user._id }  }).exec();
-    console.log(transactions);
-    res.render('transactions', { sidebar: 'transactions', transactions });
-});
-
 itemRoutes.get('/item/create', (_req, res) => {
     res.render('create', { sidebar: 'list item'});
 });

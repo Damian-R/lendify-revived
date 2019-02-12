@@ -1,19 +1,20 @@
 import express from 'express';
 import Offer from '../models/Offer';
+import Transaction from '../models/Transaction';
 import Item from '../models/Item';
 import mongoose from 'mongoose';
+import moment from 'moment';
 
 const offerRoutes = express.Router();
 
+// Show offers
 offerRoutes.get('/offers', async (req, res) => {
-    console.log(req.user);
     const offers = await Offer.find({ offerer: req.user._id }).populate('item').populate('borrower').exec();
     const sentOffers = await Offer.find({ borrower: req.user._id }).populate('item').populate('offerer').exec();
-    console.log(`offers: ${offers}`);
-    console.log(`sent offers: ${sentOffers}`);
     res.render('offers', { sidebar: 'offers', offers, sentOffers });
 });
 
+// Borrower creates offer to rent item
 offerRoutes.post('/offers/:id/create', async (req, res) => {
     console.log(req.params.id);
     console.log(req.user._id);
@@ -25,6 +26,8 @@ offerRoutes.post('/offers/:id/create', async (req, res) => {
         borrower: mongoose.Types.ObjectId(req.user._id),
         offerer: mongoose.Types.ObjectId(item.offerer._id),
         item: mongoose.Types.ObjectId(req.params.id),
+        confirmedByOfferer: false,
+        rejectedByOfferer: false,
         duration: req.body.duration,
         createdAt: Date.now()
     };
@@ -37,6 +40,51 @@ offerRoutes.post('/offers/:id/create', async (req, res) => {
     }
 
     res.redirect('/');
+});
+
+// Offerer approved offer from borrower
+offerRoutes.post('/offers/:id/approve', async (req, res) => {
+    const offer = await Offer.findOne({ _id: req.params.id }).exec();
+    offer.confirmedByOfferer = true;
+    await offer.save();
+    res.redirect('/offers');
+});
+
+// Borrower confirmed that the item has been exchanged and transaction begins
+offerRoutes.post('/offers/:id/start', async (req, res) => {
+    const offer = await Offer.findOne({ _id: req.params.id }).exec();
+
+    const transaction = {
+        offerer: {
+            id: offer.offerer,
+            ready: false
+        },
+        borrower: {
+            id: offer.borrower,
+            ready: false
+        },
+        item: offer.item,
+        createdDate: moment().toDate(),
+        expiryDate: moment().add(offer.duration, 'h').toDate(), 
+        duration: offer.duration
+    };
+
+    try {
+        const createdTransaction = await Transaction.create(transaction);
+        console.log(`created transaction ${createdTransaction}`);
+
+        // update the item with active transaction
+        const item = await Item.findOne({ _id: offer.item }).exec();
+        item.inActiveTransaction = true;
+        item.activeTransaction = createdTransaction._id;
+        await item.save();
+    } catch (err) {
+        console.log(`error while creating offer. ${err}`);
+    }
+
+    await offer.remove();
+
+    res.redirect('/transactions');
 });
 
 export default offerRoutes;

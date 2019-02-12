@@ -24,6 +24,7 @@ export default {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Item"
     },
+    confirmedByOfferer: Boolean,
     duration: Number,
     createdAt: Date
 }

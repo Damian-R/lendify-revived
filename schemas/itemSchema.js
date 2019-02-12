@@ -23,10 +23,8 @@ export default {
         ref: "User"
     },
     activeTransaction: {
-        id: {
-             type: mongoose.Schema.Types.ObjectId,
-             ref: "Transaction"
-        },
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Transaction"
     },
     createdAt: Date
 }

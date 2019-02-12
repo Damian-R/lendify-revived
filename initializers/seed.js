@@ -6,10 +6,12 @@ seeder.connect(process.env.DB_URL, () => {
   // Load Mongoose models
   seeder.loadModels([
     'dist/models/Item.js',
+    'dist/models/Offer.js',
+    'dist/models/Transaction.js',    
   ]);
  
   // Clear specified collections
-  seeder.clearModels(['Item'], () => {
+  seeder.clearModels(['Item', 'Offer', 'Transaction'], () => {
  
     // Callback to populate DB once collections have been cleared
     // seeder.populateModels(data, function() {

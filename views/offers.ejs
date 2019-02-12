@@ -19,19 +19,25 @@
                     <thead class=" text-primary">
                       <th>Item</th>
                       <th>Price</th>
+                      <th>Deposit</th>
                       <th>Offer by</th>
                       <th>Duration (h)</th>
-                      <th>Action</th>
+                      <th>Status</th>
                     </thead>
                     <tbody>
                       <%  offers.forEach(offer => {  %>
                       <tr>
                         <td><%= offer.item.name %></td>
-                        <td><%= offer.item.price %></td>
+                        <td>$<%= offer.item.price %></td>
+                        <td>$<%= offer.item.price*10 %></td>
                         <td><%= offer.borrower.username %></td>
                         <td><%= offer.duration %></td>
                         <td>
-                            <button class="btn"> hello </button>
+                            <% if (!offer.confirmedByOfferer) { %>
+                            <form action="/offers/<%= offer._id %>/approve" method="POST">
+                                <button class="btn btn-success">Approve</button>
+                            </form>
+                            <% } else { %> Awaiting Renter Confirmation <% } %>
                         </td>
                       </tr>
                       <%  });  %>
@@ -54,6 +60,7 @@
                     <thead class=" text-primary">
                       <th>Item</th>
                       <th>Price</th>
+                      <th>Deposit</th>
                       <th>Offer to</th>
                       <th>Duration (h)</th>
                       <th>Status</th>
@@ -62,10 +69,19 @@
                       <%  sentOffers.forEach(offer => {  %>
                       <tr>
                         <td><%= offer.item.name %></td>
-                        <td><%= offer.item.price %></td>
+                        <td>$<%= offer.item.price %></td>
+                        <td>$<%= offer.item.price*10 %></td>
                         <td><%= offer.offerer.username %></td>
                         <td><%= offer.duration %></td>
-                        <td>Awaiting Confirmation</td>
+                        <td>
+                            <% if (!offer.confirmedByOfferer) { %>
+                            Awaiting Offerer Confirmation
+                            <% } else { %>
+                            <form action="/offers/<%= offer._id %>/start" method="POST">
+                                <button class="btn btn-success">Begin Rental</button>
+                            </form>
+                            <% } %>
+                        </td>
                       </tr>
                       <%  });  %>
                     </tbody>

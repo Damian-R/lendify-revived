@@ -16,8 +16,6 @@ export default {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
-        iid: Number,
-        username: String,
         ready: Boolean
     },
     borrower: {
@@ -25,9 +23,13 @@ export default {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         },
-        iid: Number,
-        username: String,
         ready: Boolean
     },
-    duration: Number
+    item: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Item"
+    },
+    duration: Number,
+    createdDate: Date,
+    expiryDate: Date
 }

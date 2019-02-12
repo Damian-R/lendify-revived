@@ -17,44 +17,30 @@
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
-                      <th>
-                        Name
-                      </th>
-                      <th>
-                        Item Number
-                      </th>
-                      <th>
-                        Lender
-                      </th>
-                      <th>
-                        Borrower
-                      </th>
-                      <th>
-                        Cost
-                      </th>
-                      <th>
-                        Time
-                      </th>
-                      <th>
-                        Status
-                      </th>
-                      <th>
-                        Action
-                      </th>
+                      <th>Name</th>
+                      <th>Lender</th>
+                      <th>Borrower</th>
+                      <th>Price</th>
+                      <th>Deposit</th>
+                      <th>Start Date</th>
+                      <th>Exiry Date</th>
+                      <th>Status</th>
+                      <th>Action</th>
                     </thead>
                     <tbody>
                       <%  transactions.forEach(transaction => {  %>
                       <tr>
-                        <td><%= item.name %></td>
-                        <td><%= item.exchangeId %></td>
-                        <td><%= item.offerer.username %><% if (item.offerer.ready) { %> [Ready]<% } %></td>
-                        <td><%= item.borrower.username %></td>
-                        <td><%= item.price %></td>
-                        <td><%= item.duration %></td>
-                        <% if (Date.now()/1000 > item.expiryTime) { %> 
+                        <td><%= transaction.item.name %></td>
+                        <td><%= transaction.offerer.id.username %><% if (transaction.offerer.ready) { %> [Ready]<% } %></td>
+                        <td><%= transaction.borrower.id.username %></td>
+                        <td><%= transaction.item.price %></td>
+                        <td><%= transaction.item.price*10 %></td>
+                        <td><%= transaction.createdDate.toLocaleString() %></td>
+                        <td><%= transaction.expiryDate.toLocaleString() %></td>
+                        <% if (Date.now() > transaction.expiryDate) { %> 
                           <td>Expired</td>
                           <td>
-                            <% if (currentUser && currentUser.id == item.offerer.id) { %>
+                            <% if (currentUser && currentUser.id == transaction.offerer.id.id) { %>
                               <form>
                                 <button type="button" class="btn">Collect Collateral</button>
                               </form>
@@ -65,20 +51,20 @@
                         <% } else { %> 
                           <td>In Progress</td>
                           <td>
-                            <% if (currentUser && currentUser.id == item.offerer.id) { %>
-                              <% if (item.offerer.ready) { %>
+                            <% if (currentUser && currentUser.id == transaction.offerer.id.id) { %>
+                              <% if (transaction.offerer.ready) { %>
                                   <button class="btn" disabled>Closed</button>
                                 <% } else { %>
-                                  <form action="/item/<%= item.id %>/ready" method="POST">
+                                  <form action="/transaction/<%= transaction.id %>/ready" method="POST">
                                     <input type="hidden" value="offerer" name="ready">
                                     <button class="btn">Close</button>
                                   </form>
                                 <% } %>
-                            <% } else if (currentUser && currentUser.id == item.borrower.id) { %>
-                              <% if (item.borrower.ready) { %>
+                            <% } else if (currentUser && currentUser.id == transaction.borrower.id.id) { %>
+                              <% if (transaction.borrower.ready) { %>
                                 <button class="btn" disabled>Closed</button>
                               <% } else { %>
-                                <form action="/item/<%= item.id %>/ready" method="POST">
+                                <form action="/transaction/<%= transaction.id %>/ready" method="POST">
                                   <input type="hidden" value="borrower" name="ready">
                                   <button class="btn">Close</button>
                                 </form>
