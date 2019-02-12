@@ -1,0 +1,47 @@
+<div class="sidebar" data-color="green">
+    <div class="logo">
+        <a href="#" class="simple-text logo-normal">
+            Lendify
+        </a>
+    </div>
+    <div class="sidebar-wrapper">
+        <ul class="nav">
+        <li class="<%= sidebar == 'catalog' ? 'active' : '' %>">
+            <a href="/">
+            <i class="now-ui-icons design_bullet-list-67"></i>
+            <p>Items Available</p>
+            </a>
+        </li>
+        <% if(currentUser) { %>
+            <li class="<%= sidebar == 'transactions' ? 'active' : '' %>">
+            <a href="/transactions">
+                <i class="now-ui-icons business_money-coins"></i>
+                <p>Transactions</p>
+            </a>
+            </li>
+            <li>
+            <a href="/logout">
+                <i class="now-ui-icons users_single-02"></i>
+                <p>Logout</p>
+            </a>
+            </li>
+            <li>
+            <p style="color: white; padding-left: 20px">Logged in as <%= currentUser.username %></p>
+            </li>
+        <% } else { %>
+            <li class="<%= sidebar == 'login' ? 'active' : '' %>">
+            <a href="/login">
+                <i class="now-ui-icons users_single-02"></i>
+                <p>Login</p>
+            </a>
+            </li>
+            <li class="<%= sidebar == 'register' ? 'active' : '' %>">
+            <a href="/register">
+                <i class="now-ui-icons ui-1_simple-add"></i>
+                <p>Register</p>
+            </a>
+            </li>
+        <% } %>
+        </ul>
+    </div>
+</div>

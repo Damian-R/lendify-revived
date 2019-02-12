@@ -1,0 +1,31 @@
+<html>
+  <%- include partials/header.ejs %>
+  
+      <div class="wrapper">
+        <%- include partials/sidebar.ejs %>
+
+        <div class="main-panel">
+          <div class="panel-header panel-header-sm">
+          </div>
+          <div class="content">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4 class="card-title">Register</h4>
+                  </div>
+                  <div class="card-body">
+                    <form action="/register" method="POST">
+                        <input type="text" name="username" placeholder="username"><br/>
+                        <input type="password" name="password" placeholder="password"><br/>
+                        <button class="btn">Register</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+</html>

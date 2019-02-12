@@ -1,0 +1,106 @@
+<%- include partials/header.ejs %>
+
+  <div class="wrapper ">
+    <%- include partials/sidebar.ejs %>
+
+    <div class="main-panel">
+      <div class="panel-header panel-header-sm">
+      </div>
+      <div class="content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Your current transactions</h4>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class=" text-primary">
+                      <th>
+                        Name
+                      </th>
+                      <th>
+                        Item Number
+                      </th>
+                      <th>
+                        Lender
+                      </th>
+                      <th>
+                        Borrower
+                      </th>
+                      <th>
+                        Cost
+                      </th>
+                      <th>
+                        Time
+                      </th>
+                      <th>
+                        Status
+                      </th>
+                      <th>
+                        Action
+                      </th>
+                    </thead>
+                    <tbody>
+                      <%  items.forEach(item => {  %>
+                      <tr>
+                        <td><%= item.name %></td>
+                        <td><%= item.exchangeId %></td>
+                        <td><%= item.offerer.username %><% if (item.offerer.ready) { %> [Ready]<% } %></td>
+                        <td><%= item.borrower.username %></td>
+                        <td><%= item.price %></td>
+                        <td><%= item.duration %></td>
+                        <% if (Date.now()/1000 > item.expiryTime) { %> 
+                          <td>Expired</td>
+                          <td>
+                            <% if (currentUser && currentUser.id == item.offerer.id) { %>
+                              <form>
+                                <button type="button" class="btn">Collect Collateral</button>
+                              </form>
+                            <% } else { %>
+                              <button type="button" class="btn" disabled>None</button>
+                            <% } %>
+                          </td>
+                        <% } else { %> 
+                          <td>In Progress</td>
+                          <td>
+                            <% if (currentUser && currentUser.id == item.offerer.id) { %>
+                              <% if (item.offerer.ready) { %>
+                                  <button class="btn" disabled>Closed</button>
+                                <% } else { %>
+                                  <form action="/item/<%= item.id %>/ready" method="POST">
+                                    <input type="hidden" value="offerer" name="ready">
+                                    <button class="btn">Close</button>
+                                  </form>
+                                <% } %>
+                            <% } else if (currentUser && currentUser.id == item.borrower.id) { %>
+                              <% if (item.borrower.ready) { %>
+                                <button class="btn" disabled>Closed</button>
+                              <% } else { %>
+                                <form action="/item/<%= item.id %>/ready" method="POST">
+                                  <input type="hidden" value="borrower" name="ready">
+                                  <button class="btn">Close</button>
+                                </form>
+                              <% } %>
+                            <% } %>
+                          </td>
+                        <% } %>
+                      </tr>
+                      <%  });  %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/js/core/jquery.min.js"></script>
+  <script src="/js/core/popper.min.js"></script>
+  <script src="/js/core/bootstrap.min.js"></script>
+  <script src="/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+</body>
+</html>
