@@ -21,16 +21,16 @@
                         Name
                       </th>
                       <th>
-                        Item Number
-                      </th>
-                      <th>
                         Lender
                       </th>
                       <th>
                         Borrower
                       </th>
                       <th>
-                        Cost
+                        Price
+                      </th>
+                      <th>
+                        Status
                       </th>
                       <th>
                         Max Duration
@@ -43,10 +43,10 @@
                       <%  items.forEach((item, index) => { %>
                       <tr>
                         <td><%= item.name %></td>
-                        <td><%= item.exchangeId %></td>
                         <td><%= item.offerer.username %><% if (item.offerer.ready) { %> [Ready]<% } %></td>
                         <td><% if (item.borrower && item.borrower.username) { %><%= item.borrower.username %><% } else { %><strong>Nobody</strong><% } %></td>
                         <td><%= item.price %></td>
+                        <td>Available</td>
                         <td><% if (item.duration) { %><%= item.duration %><% } else { %> No offer </td> <% } %>
                         <td>
                           <% if (currentUser && currentUser.id == item.offerer.id && item.duration == 0) {%>

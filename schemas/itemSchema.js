@@ -4,12 +4,18 @@ export default {
     name: String,
     price: String,
     inActiveTransaction: Boolean,
+    offerer: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        username: String,
+    },
     activeTransaction: {
         id: {
              type: mongoose.Schema.Types.ObjectId,
              ref: "Transaction"
         },
-        iid: Number
    },
    createdAt: Date
 }
