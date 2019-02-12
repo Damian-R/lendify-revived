@@ -41,7 +41,7 @@
                                   <button type="button" class="btn-danger" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
-                                  <form action="/offer/<%= item.id %>/create" method="POST">
+                                  <form action="/offers/<%= item.id %>/create" method="POST">
                                     <span class="label">Item: <%= item.name %></span><br/><br/>
                                     <span class="label">Duration (h):</span><input type="number" class="form-control" name="duration"><br/><br/>
                                     <input type="hidden" name="ready" value="borrower">

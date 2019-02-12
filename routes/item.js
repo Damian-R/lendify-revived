@@ -11,12 +11,6 @@ itemRoutes.get('/transactions', async (req, res) => {
     res.render('transactions', { sidebar: 'transactions', transactions });
 });
 
-itemRoutes.get('/offers', async (req, res) => {
-    const offers = await Offer.find({ item: { offerer: { _id: req.user._id }}}).exec();
-    console.log(offers);
-    res.render('offers', { sidebar: 'offers', offers });
-});
-
 itemRoutes.get('/item/create', (_req, res) => {
     res.render('create', { sidebar: 'list item'});
 });
@@ -26,10 +20,7 @@ itemRoutes.post('/item', async (req, res) => {
     const item = {
         name,
         price,
-        offerer: {
-            id: req.user._id,
-            username: req.user.username
-        },
+        offerer: req.user._id,
         inActiveTransaction: false,
         createdAt: Date.now()
     };
@@ -45,7 +36,7 @@ itemRoutes.post('/item', async (req, res) => {
 });
 
 itemRoutes.get('/', async (_req, res) => {
-    const items = await Item.find({ inActiveTransaction: false }).exec();
+    const items = await Item.find({ inActiveTransaction: false }).populate('offerer').exec();
     res.render('home', { sidebar: 'catalog',  items });
 });
 

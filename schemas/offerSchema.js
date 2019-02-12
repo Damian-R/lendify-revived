@@ -13,17 +13,16 @@ import mongoose from 'mongoose';
 
 export default {
     borrower: {
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
-        },
-        username: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
+    offerer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
     },
     item: {
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Item"
-        }
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Item"
     },
     duration: Number,
     createdAt: Date

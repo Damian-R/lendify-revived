@@ -42,6 +42,39 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Your sent offers</h4>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class=" text-primary">
+                      <th>Item</th>
+                      <th>Price</th>
+                      <th>Offer to</th>
+                      <th>Duration (h)</th>
+                      <th>Status</th>
+                    </thead>
+                    <tbody>
+                      <%  sentOffers.forEach(offer => {  %>
+                      <tr>
+                        <td><%= offer.item.name %></td>
+                        <td><%= offer.item.price %></td>
+                        <td><%= offer.offerer.username %></td>
+                        <td><%= offer.duration %></td>
+                        <td>Awaiting Confirmation</td>
+                      </tr>
+                      <%  });  %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
