@@ -28,6 +28,11 @@ authRoutes.post('/register', (req, res) => {
 authRoutes.post('/login', passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/login',
-}), (_req, _res) => {})
+}), (_req, _res) => {});
+
+authRoutes.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/login');
+});
 
 export default authRoutes;

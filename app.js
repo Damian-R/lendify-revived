@@ -4,11 +4,6 @@ import authRoutes from './routes/auth';
 import itemRoutes from './routes/item';
 
 mongoose.connect(process.env.DB_URL); // connect mongoose to mLab database
-mongoose.Promise = require('bluebird'); // make mongoose use bluebird promises
-
-app.get('/', (_req, res) => {
-    res.render('home', { items: [], sidebar: 'catalog' });
-});
 
 app.use(authRoutes);
 app.use(itemRoutes);

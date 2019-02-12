@@ -9,4 +9,8 @@ itemRoutes.get('/transactions', async (_req, res) => {
     res.render('home', { sidebar: 'transactions', items });
 });
 
+itemRoutes.get('/', (_req, res) => {
+    res.render('home', { sidebar: 'catalog',  items: [] });
+});
+
 export default itemRoutes;
