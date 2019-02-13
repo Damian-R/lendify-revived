@@ -29,14 +29,13 @@ offerRoutes.post('/offers/:id/create', async (req, res) => {
     };
 
     try {
-        const createdOffer = await Offer.create(offer);
+        await Offer.create(offer);
 
         // Update item
         item.numOffers += 1;
         await item.save();
-        console.log(`created offer ${createdOffer}`);
     } catch (err) {
-        console.log(`error while creating offer. ${err}`);
+        console.log(`Error while creating offer. ${err}`);
     }
 
     res.redirect('/');
@@ -72,7 +71,6 @@ offerRoutes.post('/offers/:id/start', async (req, res) => {
 
     try {
         const createdTransaction = await Transaction.create(transaction);
-        console.log(`created transaction ${createdTransaction}`);
 
         // update the item with active transaction
         const item = await Item.findOne({ _id: offer.item }).exec();
@@ -81,7 +79,7 @@ offerRoutes.post('/offers/:id/start', async (req, res) => {
         item.numOffers -= 1;
         await item.save();
     } catch (err) {
-        console.log(`error while creating offer. ${err}`);
+        console.log(`Error while creating transaction. ${err}`);
     }
 
     await offer.remove();

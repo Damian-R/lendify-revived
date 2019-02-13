@@ -1,6 +1,7 @@
 import express from 'express';
 import Transaction from '../models/Transaction';
 import Item from '../models/Item';
+import mongoose from 'mongoose';
 
 const transactionRoutes = express.Router();
 
@@ -8,13 +9,16 @@ transactionRoutes.get('/transactions', async (req, res) => {
 
     // TODO fix OR query
     const transactions = await Transaction
-        .find({})
+        .find()
+        .or([
+            { "offerer.user": mongoose.Types.ObjectId(req.user._id) },
+            { "borrower.user": mongoose.Types.ObjectId(req.user._id) }
+        ])
         .populate('borrower.user')
         .populate('offerer.user')
         .populate('item')
         .exec();
-    console.log(req.user);
-    console.log(transactions);
+
     res.render('transactions', { sidebar: 'transactions', transactions });
 });
 
