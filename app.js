@@ -4,9 +4,14 @@ import authRoutes from './routes/auth';
 import itemRoutes from './routes/item';
 import offerRoutes from './routes/offer';
 import transactionRoutes from './routes/transaction';
+import isLoggedIn from './middleware/isLoggedIn';
 
 mongoose.connect(process.env.DB_URL); // connect mongoose to mLab database
 
+// Middlewares
+app.use(isLoggedIn);
+
+// Routes
 app.use(authRoutes);
 app.use(itemRoutes);
 app.use(offerRoutes);

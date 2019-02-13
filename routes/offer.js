@@ -16,11 +16,7 @@ offerRoutes.get('/offers', async (req, res) => {
 
 // Borrower creates offer to rent item
 offerRoutes.post('/offers/:id/create', async (req, res) => {
-    console.log(req.params.id);
-    console.log(req.user._id);
     const item = await Item.findOne({ _id: req.params.id }).populate('offerer').exec();
-    
-    // TODO: check if duration is larger than max duration
 
     const offer = {
         borrower: mongoose.Types.ObjectId(req.user._id),

@@ -1,11 +1,10 @@
 import express from 'express';
 import Item from '../models/Item';
-import Transaction from '../models/Transaction';
-import Offer from '../models/Offer';
+import isLoggedIn from '../middleware/isLoggedIn';
 
 const itemRoutes = express.Router();
 
-itemRoutes.get('/item/create', (_req, res) => {
+itemRoutes.get('/item/create', isLoggedIn, (_req, res) => {
     res.render('create', { sidebar: 'list item'});
 });
 
