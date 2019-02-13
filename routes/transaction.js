@@ -6,8 +6,6 @@ import mongoose from 'mongoose';
 const transactionRoutes = express.Router();
 
 transactionRoutes.get('/transactions', async (req, res) => {
-
-    // TODO fix OR query
     const transactions = await Transaction
         .find()
         .or([

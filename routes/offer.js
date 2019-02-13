@@ -4,6 +4,8 @@ import Transaction from '../models/Transaction';
 import Item from '../models/Item';
 import mongoose from 'mongoose';
 import moment from 'moment';
+import isOfferer from '../middleware/isOfferer';
+import isBorrower from '../middleware/isBorrower';
 
 const offerRoutes = express.Router();
 
@@ -42,7 +44,7 @@ offerRoutes.post('/offers/:id/create', async (req, res) => {
 });
 
 // Offerer approved offer from borrower
-offerRoutes.post('/offers/:id/approve', async (req, res) => {
+offerRoutes.post('/offers/:id/approve', isOfferer, async (req, res) => {
     const offer = await Offer.findOne({ _id: req.params.id }).exec();
     offer.confirmedByOfferer = true;
     await offer.save();
@@ -50,7 +52,7 @@ offerRoutes.post('/offers/:id/approve', async (req, res) => {
 });
 
 // Borrower confirmed that the item has been exchanged and transaction begins
-offerRoutes.post('/offers/:id/start', async (req, res) => {
+offerRoutes.post('/offers/:id/start', isBorrower, async (req, res) => {
     const offer = await Offer.findOne({ _id: req.params.id }).exec();
 
     const transaction = {

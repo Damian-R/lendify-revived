@@ -22,9 +22,9 @@ itemRoutes.post('/item', async (req, res) => {
 
     try {
         const createdItem = await Item.create(item);
-        console.log(`created item ${createdItem}`);
+        console.log(`Created item ${createdItem}`);
     } catch (err) {
-        console.log(`error when creating item. ${err}`);
+        console.log(`Error when creating item. ${err}`);
     }
 
     res.redirect('/');
