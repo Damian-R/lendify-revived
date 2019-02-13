@@ -1,6 +1,8 @@
 import express from 'express';
 import Item from '../models/Item';
 import isLoggedIn from '../middleware/isLoggedIn';
+import ownsItem from '../middleware/ownsItem';
+import Offer from '../models/Offer';
 
 const itemRoutes = express.Router();
 itemRoutes.use(isLoggedIn);
@@ -26,6 +28,12 @@ itemRoutes.post('/item', async (req, res) => {
     } catch (err) {
         console.log(`Error when creating item. ${err}`);
     }
+
+    res.redirect('/');
+});
+
+itemRoutes.delete('/item/:id', ownsItem, async (req, res) => {
+    await Item.findOne({ _id: req.params.id }).remove().exec();
 
     res.redirect('/');
 });

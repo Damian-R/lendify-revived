@@ -51,6 +51,10 @@
                               </div>
                             </div>
                           </div>
+                          <% } else if (currentUser && currentUser.id == item.offerer.id) { %>
+                            <form action="/item/<%= item.id %>?_method=DELETE" method="POST">
+                              <button class="btn btn-danger">Remove</button>
+                            </form>
                           <% } %>
                         </td>
                       </tr>
