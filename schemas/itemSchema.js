@@ -10,17 +10,31 @@ import mongoose from 'mongoose';
         numOffers: [Number] number of offers made for the item
         offerer: [User] the original owner of the item
         activeTransaction: [Transaction] the current transaction the item is associated with (if any)
+        createdAt: [Date] the date on which the item was created
 
 */
 
 export default {
-    name: String,
-    price: Number,
-    inActiveTransaction: Boolean,
-    numOffers: Number,
+    name: {
+        type: String,
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    inActiveTransaction: {
+        type: Boolean,
+        default: false
+    },
+    numOffers: {
+        type: Number,
+        default: false
+    },
     offerer: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User",
+        required: true
     },
     activeTransaction: {
         type: mongoose.Schema.Types.ObjectId,

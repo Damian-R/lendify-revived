@@ -7,6 +7,12 @@ import mongoose from 'mongoose';
         offerer: [User] the original owner of the item
         borrower: [User] the user who is renting the item
         duration: [Number] the maximum duration of the transaction
+        item: [Item] the item being traded
+        complete: [Boolean] flag indicating whether or not the transaction is complete
+        and the item has been returned
+        createdDate: [Date] the date the transaction began
+        expiryDate: [Date] the date on which the transaction
+        will expire if the item is not returned
 
 */
 
@@ -14,9 +20,13 @@ export default {
     offerer: {
         user: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
+            ref: "User",
+            required: true
         },
-        ready: Boolean
+        ready: {
+            type: Boolean,
+            required: true
+        },
     },
     borrower: {
         user: {
@@ -27,10 +37,17 @@ export default {
     },
     item: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Item"
+        ref: "Item",
+        required: true
     },
-    duration: Number,
+    duration: {
+        type: Number,
+        required: true
+    },
     createdDate: Date,
     expiryDate: Date,
-    complete: Boolean
+    complete: {
+        type: Boolean,
+        default: false
+    }
 }
