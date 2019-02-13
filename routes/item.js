@@ -3,6 +3,7 @@ import Item from '../models/Item';
 import isLoggedIn from '../middleware/isLoggedIn';
 
 const itemRoutes = express.Router();
+itemRoutes.use(isLoggedIn);
 
 itemRoutes.get('/item/create', isLoggedIn, (_req, res) => {
     res.render('create', { sidebar: 'list item'});
@@ -14,6 +15,7 @@ itemRoutes.post('/item', async (req, res) => {
         name,
         price,
         offerer: req.user._id,
+        numOffers: 0,
         inActiveTransaction: false,
         createdAt: Date.now()
     };

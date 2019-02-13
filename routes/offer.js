@@ -14,7 +14,7 @@ offerRoutes.get('/offers', async (req, res) => {
     res.render('offers', { sidebar: 'offers', offers, sentOffers });
 });
 
-// Borrower creates offer to rent item
+// Borrower creating offer to rent item
 offerRoutes.post('/offers/:id/create', async (req, res) => {
     const item = await Item.findOne({ _id: req.params.id }).populate('offerer').exec();
 
@@ -30,6 +30,10 @@ offerRoutes.post('/offers/:id/create', async (req, res) => {
 
     try {
         const createdOffer = await Offer.create(offer);
+
+        // Update item
+        item.numOffers += 1;
+        await item.save();
         console.log(`created offer ${createdOffer}`);
     } catch (err) {
         console.log(`error while creating offer. ${err}`);
@@ -74,6 +78,7 @@ offerRoutes.post('/offers/:id/start', async (req, res) => {
         const item = await Item.findOne({ _id: offer.item }).exec();
         item.inActiveTransaction = true;
         item.activeTransaction = createdTransaction._id;
+        item.numOffers -= 1;
         await item.save();
     } catch (err) {
         console.log(`error while creating offer. ${err}`);

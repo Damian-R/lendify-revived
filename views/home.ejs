@@ -28,24 +28,24 @@
                       <tr>
                         <td><%= item.name %></td>
                         <td><%= item.offerer.username %></td>
-                        <td><%= item.price %></td>
+                        <td>$<%= item.price %></td>
                         <td><% if (item.numOffers && item.numOffers > 0) { %><%= item.numOffers %> offer(s)<% } else { %> No offers </td> <% } %>
                         <td>
                           <% if (currentUser && currentUser.id != item.offerer.id) { %>
-                            <button type="button" class="btn" data-toggle="modal" data-target="#modalb<%= index %>">Rent</button>
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalb<%= index %>">Rent</button>
                             <div class="modal" id="modalb<%= index %>">
                             <div class="modal-dialog">
                               <div class="modal-content">
                                 <div class="modal-header">
                                   <h4>Rental Request</h4>
-                                  <button type="button" class="btn-danger" data-dismiss="modal">&times;</button>
+                                  <button type="button" class="btn btn-danger" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
                                   <form action="/offers/<%= item.id %>/create" method="POST">
                                     <span class="label">Item: <%= item.name %></span><br/><br/>
                                     <span class="label">Duration (h):</span><input type="number" class="form-control" name="duration"><br/><br/>
                                     <input type="hidden" name="ready" value="borrower">
-                                    <button class="btn">Submit</button>
+                                    <button class="btn btn-success">Submit</button>
                                   </form>
                                 </div>
                               </div>

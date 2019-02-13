@@ -39,7 +39,7 @@
                             <form action="/offers/<%= offer._id %>/approve" method="POST">
                                 <button class="btn btn-success">Approve</button>
                             </form>
-                            <% } else { %> Awaiting Renter Confirmation <% } %>
+                            <% } else { %><button class="btn btn-success" disabled>Awaiting Renter Confirmation</button><% } %>
                         </td>
                       </tr>
                       <%  });  %>
@@ -78,8 +78,10 @@
                         <td>$<%= offer.item.price*offer.duration*3 %></td>
                         <td><%= offer.offerer.username %></td>
                         <td>
-                            <% if (!offer.confirmedByOfferer) { %>
-                            Awaiting Offerer Confirmation
+                            <% if (offer.item.inActiveTransaction) { %>
+                              <button class="btn btn-success" disabled>Item in Transaction</button>
+                            <% } else if (!offer.confirmedByOfferer) { %>
+                            <button class="btn btn-success" disabled>Awaiting Owner Confirmation</button>
                             <% } else { %>
                             <form action="/offers/<%= offer._id %>/start" method="POST">
                                 <button class="btn btn-success">Begin Rental</button>
