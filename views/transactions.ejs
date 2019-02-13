@@ -45,7 +45,7 @@
                           <td>
                             <% if (currentUser && currentUser.id == transaction.offerer.user.id) { %>
                               <form>
-                                <button type="button" class="btn btn-success">Collect Collateral</button>
+                                <button type="button" class="btn btn-info">Collect Collateral</button>
                               </form>
                             <% } else { %>
                               <button type="button" class="btn" disabled>None</button>
@@ -59,7 +59,6 @@
                                   <button class="btn" disabled>Awaiting Borrower Confirmation</button>
                                 <% } else { %>
                                   <form action="/transactions/<%= transaction.id %>/ready" method="POST">
-                                    <input type="hidden" value="offerer" name="ready">
                                     <button class="btn btn-success">Item Returned</button>
                                   </form>
                                 <% } %>
@@ -68,7 +67,6 @@
                                 <button class="btn btn-success" disabled>Awaiting Offerer Confirmation</button>
                               <% } else { %>
                                 <form action="/transactions/<%= transaction.id %>/ready" method="POST">
-                                  <input type="hidden" value="borrower" name="ready">
                                   <button class="btn btn-success">Return Item</button>
                                 </form>
                               <% } %>

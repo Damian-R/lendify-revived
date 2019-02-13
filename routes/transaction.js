@@ -23,8 +23,10 @@ transactionRoutes.get('/transactions', async (req, res) => {
 transactionRoutes.post('/transactions/:id/ready', async (req, res) => {
     const transaction = await Transaction.findOne({ _id: req.params.id }).exec();
 
-    if (req.body.ready == 'offerer') transaction.offerer.ready = true;
-    else if (req.body.ready == 'borrower') transaction.borrower.ready = true;
+    if (transaction.offerer.user.toString() == req.user._id) 
+        transaction.offerer.ready = true;
+    else if (transaction.borrower.user.toString() == req.user._id) 
+        transaction.borrower.ready = true;
 
     if (transaction.offerer.ready && transaction.borrower.ready) {
         transaction.complete = true;
