@@ -2,6 +2,7 @@ import express from 'express';
 import Transaction from '../models/Transaction';
 import Item from '../models/Item';
 import mongoose from 'mongoose';
+import userInTransaction from '../middleware/userInTransaction';
 
 const transactionRoutes = express.Router();
 
@@ -20,7 +21,7 @@ transactionRoutes.get('/transactions', async (req, res) => {
     res.render('transactions', { sidebar: 'transactions', transactions });
 });
 
-transactionRoutes.post('/transactions/:id/ready', async (req, res) => {
+transactionRoutes.post('/transactions/:id/ready', userInTransaction, async (req, res) => {
     const transaction = await Transaction.findOne({ _id: req.params.id }).exec();
 
     if (transaction.offerer.user.toString() == req.user._id) 
