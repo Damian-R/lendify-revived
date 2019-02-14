@@ -9,3 +9,7 @@ ie. make Offer.completeOffer() which does everything in the /offers/:id/start ro
 For example, right now some issues are "protected" only via the front-end.
 ie. when a transaction is expired, the button to return the item is replaced,
 but the POST route is still accessible via external tools such as postman
+
+4. Error messaging on the front-end instead of console logging :)
+
+5. Sort transactions based on completeness

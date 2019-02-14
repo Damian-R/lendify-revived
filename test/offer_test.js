@@ -1,4 +1,0 @@
-
-describe('Offer functionality', function() {
-    
-});

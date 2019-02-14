@@ -33,8 +33,8 @@
                         <td><%= transaction.item.name %></td>
                         <td><%= transaction.offerer.user.username %></td>
                         <td><%= transaction.borrower.user.username %></td>
-                        <td>$<%= transaction.item.price %></td>
-                        <td>$<%= transaction.item.price*10 %></td>
+                        <td>$<%= transaction.item.price*transaction.duration %></td>
+                        <td>$<%= transaction.item.price*transaction.duration*3 %></td>
                         <td><%= transaction.createdDate.toLocaleString() %></td>
                         <td><%= transaction.expiryDate.toLocaleString() %></td>
                         <% if (transaction.complete) { %>
