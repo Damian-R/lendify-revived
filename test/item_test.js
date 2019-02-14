@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import assert from 'assert';
 import Offer from '../models/Offer';
 
-describe('Item functionality', function() {
+describe('Item functionality', function() { 
     let item;
 
     beforeEach((done) => {

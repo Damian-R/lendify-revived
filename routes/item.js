@@ -2,7 +2,6 @@ import express from 'express';
 import Item from '../models/Item';
 import isLoggedIn from '../middleware/isLoggedIn';
 import ownsItem from '../middleware/ownsItem';
-import Offer from '../models/Offer';
 
 const itemRoutes = express.Router();
 itemRoutes.use(isLoggedIn);

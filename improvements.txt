@@ -1,0 +1,11 @@
+1. Move all model modification to methods on the model rather than in express routes
+
+ie. make Offer.completeOffer() which does everything in the /offers/:id/start route (would make it easier to test and clean up the code)
+
+2. Add expired [Boolean] field to Transactions instead of doing the check on the front-end
+
+3. Add many more validations to avoid unwanted scenarios
+
+For example, right now some issues are "protected" only via the front-end.
+ie. when a transaction is expired, the button to return the item is replaced,
+but the POST route is still accessible via external tools such as postman

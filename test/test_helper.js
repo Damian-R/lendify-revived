@@ -17,7 +17,8 @@ before((done) => {
 
 beforeEach(function(done) {
     this.timeout(5000);
-
+    
+    // clean database before tests
     mongoose.connection.collections.users.drop(() => {
         mongoose.connection.collections.items.drop(() => {
             mongoose.connection.collections.offers.drop(() => {
