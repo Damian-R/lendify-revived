@@ -30,7 +30,13 @@ export default {
         ref: "Item",
         required: true
     },
-    confirmedByOfferer: Boolean,
-    duration: Number,
+    confirmedByOfferer: {
+        type: Boolean,
+        default: false
+    },
+    duration: {
+        type: Number,
+        required: true
+    },
     createdAt: Date
 }

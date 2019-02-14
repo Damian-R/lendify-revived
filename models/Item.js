@@ -7,7 +7,6 @@ const schema = mongoose.Schema(itemSchema);
 
 // Middleware to remove dependent offers before removing item
 schema.pre('remove', { query: true, document: false }, async function(next) {
-    console.log(this._conditions._id);
     await Offer.deleteMany({ item: mongoose.Types.ObjectId(this._conditions._id) }).exec();
     next();
 });
